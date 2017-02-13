@@ -162,6 +162,7 @@ class Permutation
         return self::permutationByPos($this->current(), (int)$position);
     }
 
+
     /**
      * Get by position
      *
@@ -172,13 +173,9 @@ class Permutation
      */
     public static function permutationByPos($array, $num)
     {
-        if ($num <= 0) {
-            $num = 0;
-        }
-
-        $num = abs($num) + 1;
+        $num = abs($num)+1;
         $n = count($array);
-        $used = array_fill(0, $n + 1, false);
+        $used = array_fill(0, $n, false);
         $res = [];
 
         $factorial = self::factorial($n);
@@ -190,21 +187,17 @@ class Permutation
             }
         }
 
-        for ($i = 0; $i < $n; $i++) {
-            $factorial = self::factorial($n - $i - 1);
+        for ($i = 1; $i <= $n; $i++) {
+            $factorial = self::factorial($n - $i);
             $blockNum = intval(($num - 1) / $factorial + 1);
 
             $pos = 0;
-            for ($j = 1; $j < count($used); $j++) {
-                if (!$used[$j]) {
-                    $pos++;
-                }
-                if ($blockNum == $pos) {
-                    break;
-                }
+            for ($j=1; $j<count($used); $j++) {
+                if (!$used[$j]) $pos++;
+                if ($blockNum == $pos) break;
             }
 
-            $res[$i] = $j - 1;
+            $res[$i-1]=$j-1;
             $used[$j] = true;
             $num = intval(($num - 1) % $factorial) + 1;
         }
