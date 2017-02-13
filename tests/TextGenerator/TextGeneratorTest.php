@@ -2,8 +2,7 @@
 
 namespace TextGeneratorTest;
 
-require_once __DIR__ . '/TestCase.php';
-
+use PHPUnit\Framework\TestCase;
 use TextGenerator\Part;
 use TextGenerator\TextGenerator;
 
@@ -25,7 +24,7 @@ class TextGeneratorTest extends TestCase
     {
         $str = "Hi {men|girl|kid|guy|dude} you are so [+ and +biutifull|amazin|good|{awesome|nerdy :)}|practice]";
 
-        $this->assertNotEquals(TextGenerator::factory($str, [Part::OPTION_GENERATE_RANDOM => true])->generate(), TextGenerator::factory($str, [Part::OPTION_GENERATE_RANDOM => true])->generate(true));
+        $this->assertNotEquals(TextGenerator::factory($str, [Part::OPTION_GENERATE_RANDOM => true])->generate(), TextGenerator::factory($str, [Part::OPTION_GENERATE_RANDOM => true])->generate());
     }
 
     public function testHashedGenerator()
@@ -33,7 +32,7 @@ class TextGeneratorTest extends TestCase
         $str = "Hi {men|girl|kid|guy|dude} you are so [+ and +biutifull|amazin|good|{awesome|nerdy :)}|practice]";
 
         $this->assertNotEquals(TextGenerator::factory($str, [Part::OPTION_GENERATE_HASH => 2])->generate(),
-                               TextGenerator::factory($str, [Part::OPTION_GENERATE_HASH => "2"])->generate(true));
+            TextGenerator::factory($str, [Part::OPTION_GENERATE_HASH => "2"])->generate());
     }
 
     public function testSomeCase()

@@ -16,13 +16,12 @@ class AutotextNode extends Twig_Node
     {
         $compiler
             ->addDebugInfo($this)
-            ->write('ob_start();' . PHP_EOL)
+            ->write('ob_start();'.PHP_EOL)
             ->subcompile($this->getNode('body'))
-            ->write('$body = ob_get_clean();' . PHP_EOL)
+            ->write('$body = ob_get_clean();'.PHP_EOL)
             ->write('$id = ')
             ->subcompile($this->getNode('id'))
-            ->write(';' . PHP_EOL)
-            ->write('echo $this->env->getExtension(\'autotext\')->generateText($body, $id);' . PHP_EOL)
-        ;
+            ->write(';'.PHP_EOL)
+            ->write('echo $this->env->getExtension(\'autotext\')->generateText($body, $id);'.PHP_EOL);
     }
 }

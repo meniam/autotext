@@ -4,11 +4,12 @@ namespace Permutation;
 
 /**
  * Permutation algorithm on PHP
+ *
  * @category   Permutation
  * @package    Permutation
  * @author     Eugene Myazin <eugene.myazin@gmail.com>
  * @since      27.08.14
- * @copyright  2014 Eugene Myazin <github.com/meniam/permutation>
+ * @copyright  2014 Eugene Myazin <https://github.com/meniam/permutation>
  */
 class Permutation
 {
@@ -34,20 +35,25 @@ class Permutation
 
     public function __construct($elements)
     {
-        if (!(int) $elements) {
+        if (!(int)$elements) {
             throw new Exception('Count of elements must be more than zero');
         }
 
-        if ((int) $elements > 64) {
+        if ((int)$elements > 312) {
             throw new Exception('Too many elements');
         }
 
-        $this->elements = (int) $elements;
+        $this->elements = (int)$elements;
         $this->first = $this->current = range(0, $elements - 1);
         $this->sequenceArray[0] = $this->first;
     }
 
-    function _permuteArray($items, $perms = array( ))
+    /**
+     * @param       $items
+     * @param array $perms
+     * @return array
+     */
+    function _permuteArray($items, $perms = array())
     {
         $result = array();
 
@@ -82,6 +88,7 @@ class Permutation
 
     /**
      * Get Next Sequence in order
+     *
      * @param array $currentSequence
      *
      * @return array
@@ -114,7 +121,7 @@ class Permutation
             //На колу мочало, начинай с начала!
             return reset($this->sequenceArray);
         }
-        $nextSequence     = $currentSequence;
+        $nextSequence = $currentSequence;
         //Меняем местами a[k] и a[l]
         $nextSequence[$k] = $currentSequence[$l];
         $nextSequence[$l] = $currentSequence[$k];
@@ -123,9 +130,9 @@ class Permutation
         //Разворачиваем массив начиная с k2 = k + 1
         if ($k2 < ($sequenceLength - 1)) {
             for ($i = 0, $count = floor(($sequenceLength - $k2) / 2); $i < $count; $i++) {
-                $key1                = $k2 + $i;
-                $key2                = $sequenceLength - 1 - $i;
-                $val1                = $nextSequence[$key1];
+                $key1 = $k2 + $i;
+                $key2 = $sequenceLength - 1 - $i;
+                $val1 = $nextSequence[$key1];
                 $nextSequence[$key1] = $nextSequence[$key2];
                 $nextSequence[$key2] = $val1;
             }
@@ -169,20 +176,23 @@ class Permutation
             $num = 0;
         }
 
-        $num  = abs($num) + 1;
-        $n    = count($array);
+        $num = abs($num) + 1;
+        $n = count($array);
         $used = array_fill(0, $n + 1, false);
-        $res  = [];
+        $res = [];
 
         $factorial = self::factorial($n);
+
         if ($num > $factorial) {
             $num = $num % $factorial;
+            if ($num == 0) {
+                $num = $factorial - abs($num);
+            }
         }
 
         for ($i = 0; $i < $n; $i++) {
             $factorial = self::factorial($n - $i - 1);
-
-            $blockNum = intval( ($num - 1) / $factorial + 1);
+            $blockNum = intval(($num - 1) / $factorial + 1);
 
             $pos = 0;
             for ($j = 1; $j < count($used); $j++) {
@@ -194,7 +204,7 @@ class Permutation
                 }
             }
 
-            $res[$i] = $j-1;
+            $res[$i] = $j - 1;
             $used[$j] = true;
             $num = intval(($num - 1) % $factorial) + 1;
         }
@@ -227,7 +237,10 @@ class Permutation
      */
     private static function factorial($x)
     {
-        return ($x === 0) ? 1 :
-                    $x*self::factorial($x-1);
+        $result = ($x === 0) ? 1 : $x * self::factorial($x - 1);
+        if ($result >= PHP_INT_MAX) {
+            return PHP_INT_MAX;
+        }
+        return $result;
     }
 }

@@ -18,6 +18,8 @@ class XorPart extends Part
 
     public function __construct($template, array $options = array())
     {
+        parent::__construct($template, $options);
+
         $this->setOptions($options);
         $template = $this->parseTemplate($template);
 

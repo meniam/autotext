@@ -1,3 +1,3 @@
 #!/bin/sh
 
-phpunit --configuration phpunit.xml
+./../vendor/bin/phpunit --configuration phpunit.xml

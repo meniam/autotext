@@ -84,6 +84,10 @@ class Part
 
         $replacementArrayTmp = array();
         $searchArray         = array();
+        /**
+         * @var mixed $key
+         * @var array|Part[] $value
+         */
         foreach ($replacementArray as $key => $value) {
             $searchArray[]         = $key;
             $replacementArrayTmp[] = $value->generate();
@@ -99,7 +103,7 @@ class Part
     }
 
     /**
-     * @return int|void
+     * @return int
      */
     public function getReplacementCount()
     {
