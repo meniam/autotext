@@ -1,5 +1,5 @@
 parameters:
-    autotext.class: "AutotextBundle\Service\AutotextService"
+    autotext.class: AutotextBundle\Service\AutotextService
 
 services:
     service.aspect:
