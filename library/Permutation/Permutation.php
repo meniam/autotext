@@ -162,28 +162,27 @@ class Permutation
         return self::permutationByPos($this->current(), (int)$position);
     }
 
-
     /**
      * Get by position
      *
      * @param $array
      * @param $num
+     * @deprecated
      *
      * @return array
      */
-    public static function permutationByPos($array, $num)
+    public static function shift($array, $num)
     {
-        $num = abs($num)+1;
+        $num = abs($num) + 1;
         $n = count($array);
         $used = array_fill(0, $n, false);
         $res = [];
 
         $factorial = self::factorial($n);
-
         if ($num > $factorial) {
             $num = $num % $factorial;
             if ($num == 0) {
-                $num = $factorial - abs($num);
+                $num = $factorial - $num;
             }
         }
 
@@ -192,17 +191,81 @@ class Permutation
             $blockNum = intval(($num - 1) / $factorial + 1);
 
             $pos = 0;
-            for ($j=1; $j<count($used); $j++) {
+            for ($j = 1; $j < count($used); $j++) {
                 if (!$used[$j]) $pos++;
                 if ($blockNum == $pos) break;
             }
 
-            $res[$i-1]=$j-1;
+            $res[$i - 1] = $j - 1;
             $used[$j] = true;
             $num = intval(($num - 1) % $factorial) + 1;
         }
 
         return $res;
+    }
+
+    public static function permutationByPos($array, $num)
+    {
+        $num = abs($num);
+
+        $factorial = self::factorial(count($array));
+        if ($num > $factorial && !($num = $num % $factorial)) {
+            $num = $factorial;
+        }
+
+        $slice = self::getMaxFactorialBase($num);
+        $base = [];
+        if ($slice && (count($array) > $slice + 1)) {
+            $base = array_slice($array, 0, count($array) - ($slice + 1));
+            $array = array_slice($array, 0 - ($slice + 1));
+        }
+
+        $numFactorial = self::getMaxFactorial($num);
+        if ($num == 0) {
+            $key = 0;
+            $newIteration = 0;
+        } elseif ($num % $numFactorial == 0) {
+            $key = (int)floor($num / $numFactorial) - 1;
+            $newIteration = $num - ($numFactorial * $key);
+        } else {
+            $key = (int)floor($num / $numFactorial);
+            $newIteration = $num - ($numFactorial * $key);
+        }
+
+        $element = $array[$key];
+        unset($array[$key]);
+        $result = array_merge($base, [$element], count($array) == 1 ? $array : self::permutationByPos(array_values($array), $newIteration));
+        return $result;
+    }
+
+    /**
+     * @param $number
+     * @return int
+     */
+    public static function getMaxFactorialBase($number)
+    {
+        $i = 1;
+        $factorial = 1;
+        while ($factorial < $number) {
+            $i++;
+            $factorial = self::factorial($i);
+        }
+        return $i - 1;
+    }
+
+    /**
+     * @param $number
+     * @return int
+     */
+    public static function getMaxFactorial($number)
+    {
+        $i = 1;
+        $factorial = 1;
+        while ($factorial < $number) {
+            $i++;
+            $factorial = self::factorial($i);
+        }
+        return self::factorial($i - 1);
     }
 
     /**
