@@ -1,10 +1,7 @@
 <?php
 
-namespace AppBundle\Service;
+namespace AutotexBundle\Service;
 
-use AppBundle\AbstractService;
-use AppBundle\Entity\Autotext;
-use AppBundle\Entity\AutotextPlace;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use TextGenerator\Part;
 use TextGenerator\TextGenerator;
