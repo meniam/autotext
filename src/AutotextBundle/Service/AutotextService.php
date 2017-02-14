@@ -1,6 +1,6 @@
 <?php
 
-namespace AutotexBundle\Service;
+namespace AutotextBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use TextGenerator\Part;
