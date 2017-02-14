@@ -1,0 +1,8 @@
+parameters:
+    autotext.class: "AutotextBundle\Service\AutotextService"
+
+services:
+    service.aspect:
+        class:     AutotextBundle\Service\AutotextService
+        arguments: [ "@service_container" ]
+

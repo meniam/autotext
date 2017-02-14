@@ -1,10 +1,9 @@
 {
     "name": "meniam/autotext",
-    "type": "library",
+    "type": "symfony-bundle",
     "description":  "Seo text generator library",
     "keywords": ["app", "web", "seo", "text"],
     "homepage": "https://github.com/meniam/autotext",
-    "license":  "MIT",
     "authors": [
         {
             "name": "Eugene Myazin",
@@ -20,14 +19,17 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "twig/twig": ">=1.12.3 <2.0"
+        "php": ">=5.6.0",
+        "symfony/framework-bundle": "~3.0",
+        "symfony/twig-bundle":      "~3.0"
     },
     "require-dev": {
-        "php": ">=5.4.0",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {
+        "psr-4": {
+            "": "src/"
+        },
         "psr-0": {
             "TextGenerator": "library",
             "Permutation": "library",
