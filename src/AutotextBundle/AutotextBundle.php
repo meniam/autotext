@@ -4,6 +4,6 @@ namespace AutotextBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SputnikBundle extends Bundle
+class AutotextBundle extends Bundle
 {
 }
