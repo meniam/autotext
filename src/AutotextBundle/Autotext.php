@@ -9,6 +9,21 @@ use TextGenerator\TextGenerator;
 class Autotext
 {
     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * AutotextExtension constructor.
+     *
+     * @param ContainerInterface $container
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * @param       $text
      * @param null  $seed
      * @param array $vars

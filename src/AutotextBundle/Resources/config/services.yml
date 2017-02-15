@@ -5,6 +5,7 @@ parameters:
 services:
     service.autotext:
         class:     "%autotext.service.class%"
+        arguments: [ "@service_container" ]
     twig.autotext:
         class:     "%autotext.twig.extension.class%"
         public:    false
