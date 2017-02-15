@@ -15,9 +15,19 @@ class AutotextExtension extends Twig_Extension
      */
     public function getFilters()
     {
-        return array(
+        return [
             'autotext' => new Twig_SimpleFilter('autotext', array(&$this, 'autotext'), array('is_safe' => array('html'))),
-        );
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getFunctions()
+    {
+        return [
+            new \Twig_SimpleFunction('autotext', array($this, 'autotext'), ['is_safe' => ['all']]),
+        ];
     }
 
     /**
@@ -36,7 +46,7 @@ class AutotextExtension extends Twig_Extension
      */
     public function getTokenParsers()
     {
-        return array(new AutotextTokenParser());
+        return [new AutotextTokenParser()];
     }
 
     /**
