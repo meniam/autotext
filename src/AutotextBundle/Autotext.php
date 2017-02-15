@@ -11,7 +11,7 @@ class Autotext
     /**
      * @var ContainerInterface
      */
-    private $container;
+    protected $container;
 
     /**
      * AutotextExtension constructor.
