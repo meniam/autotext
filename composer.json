@@ -4,6 +4,7 @@
     "description":  "Seo text generator library",
     "keywords": ["app", "web", "seo", "text"],
     "homepage": "https://github.com/meniam/autotext",
+    "license": "MIT",
     "authors": [
         {
             "name": "Eugene Myazin",
