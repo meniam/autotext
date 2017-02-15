@@ -1,6 +1,6 @@
 <?php
 
-namespace GeneratorBundle\Twig;
+namespace AutotextBundle\Twig;
 
 use TextGenerator\Part;
 use TextGenerator\TextGenerator;

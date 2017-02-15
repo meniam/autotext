@@ -1,6 +1,6 @@
 <?php
 
-namespace GeneratorBundle\Twig;
+namespace AutotextBundle\Twig;
 
 use Twig_Node_Expression;
 use Twig_Node;

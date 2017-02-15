@@ -23,15 +23,17 @@ class AutotextService
 
     /**
      * @param       $text
-     * @param null  $id
+     * @param null  $seed
      * @param array $vars
      *
      * @return string
      */
-    public function autotext($text, $id = null, $vars = [])
+    public function autotext($text, $seed = null, $vars = [])
     {
-        $textGeneratorOptions = array(Part::OPTION_GENERATE_HASH => $id);
-        return $this->replaceVars(TextGenerator::factory($text, $textGeneratorOptions)->generate(), $vars);
+        $textGeneratorOptions = array(Part::OPTION_GENERATE_RANDOM => $seed);
+        $textGenerator = TextGenerator::factory($text, $textGeneratorOptions);
+        $text = $seed ? $textGenerator->generateRandom($seed) : $textGenerator->generate();
+        return $this->replaceVars($text, $vars);
     }
 
     /**

@@ -121,6 +121,7 @@ class Permutation
             //На колу мочало, начинай с начала!
             return reset($this->sequenceArray);
         }
+
         $nextSequence = $currentSequence;
         //Меняем местами a[k] и a[l]
         $nextSequence[$k] = $currentSequence[$l];

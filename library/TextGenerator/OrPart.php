@@ -93,27 +93,31 @@ class OrPart extends XorPart
      */
     public function getCurrentTemplate()
     {
-        if ($hash = $this->getOption(self::OPTION_GENERATE_HASH)) {
-            if (!is_int($hash)) {
-                $hash = abs(crc32($hash));
-            }
+        return implode($this->delimiter, $this->currentTemplateKeySequence);
+    }
 
-            $this->currentTemplateKeySequence = $templateKeySequence = $this->permutation->getByPos($hash);
-        } elseif ($this->getOption(self::OPTION_GENERATE_RANDOM)) {
-            $randomSequence = range(0, count($this->template) - 1);
-            shuffle($randomSequence);
-            
-            $this->currentTemplateKeySequence = $templateKeySequence = $this->permutation->nextSequence($randomSequence);
-        } else {
-            $templateKeySequence = $this->currentTemplateKeySequence;
+    /**
+     * @param null $seed
+     * @return string
+     */
+    public function getRandomTemplate($seed = null)
+    {
+        if ($seed) {
+            mt_srand(abs(crc32($seed.'_orPartRandom')));
         }
+        $templates = clone $this->template;
+        $order = array_map(create_function('$val', 'return mt_rand();'), range(1, count($templates)));
+        array_multisort($order, $templates);
+
+        $this->currentTemplateKeySequence = $templates;
 
         $templateArray = $this->template;
-        for ($i = 0, $count = count($templateKeySequence); $i < $count; $i++) {
-            $templateKey             = $templateKeySequence[$i];
-            $templateKeySequence[$i] = $templateArray[$templateKey];
+        for ($i = 0, $count = count($this->currentTemplateKeySequence); $i < $count; $i++) {
+            $templateKey             = $this->currentTemplateKeySequence[$i];
+            $this->currentTemplateKeySequence[$i] = $templateArray[$templateKey];
         }
 
-        return implode($this->delimiter, $templateKeySequence);
+        return implode($this->delimiter, $this->currentTemplateKeySequence);
     }
+
 }

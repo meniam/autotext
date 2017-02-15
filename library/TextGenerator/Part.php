@@ -29,7 +29,7 @@ class Part
         self::OPTION_FILTER_EMPTY_VALUES => true,
         self::OPTION_REMOVE_DUPLICATES => true,
         self::OPTION_GENERATE_HASH => null,
-        self::OPTION_GENERATE_RANDOM => false
+        self::OPTION_GENERATE_RANDOM => null
     ];
 
     /**
@@ -102,6 +102,31 @@ class Part
         return $template;
     }
 
+    public function generateRandom($seed = null)
+    {
+        $template         = $this->getRandomTemplate($seed);
+        $replacementArray = $this->getReplacementArray();
+
+        $replacementArrayTmp = array();
+        $searchArray         = array();
+        /**
+         * @var mixed $key
+         * @var array|Part[] $value
+         */
+        foreach ($replacementArray as $key => $value) {
+            $searchArray[]         = $key;
+            $replacementArrayTmp[] = $value->generate();
+        }
+        $replacementArray = $replacementArrayTmp;
+
+        $this->next();
+
+        if ($searchArray) {
+            return str_replace($searchArray, $replacementArray, $template);
+        }
+        return $template;
+    }
+
     /**
      * @return int
      */
@@ -140,6 +165,20 @@ class Part
     protected function getCurrentTemplate()
     {
         return $this->template;
+    }
+
+    /**
+     * @param null $seed
+     * @return mixed
+     */
+    public function getRandomTemplate($seed = null)
+    {
+        if ($seed) {
+            mt_srand(abs(crc32($seed.'_XorPartRandom')));
+        }
+        $templateKey = mt_rand(0, count($this->template) - 1);
+
+        return $this->template[$templateKey];
     }
 
     /**
