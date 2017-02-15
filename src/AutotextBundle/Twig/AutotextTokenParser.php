@@ -12,14 +12,26 @@ class AutotextTokenParser extends \Twig_TokenParser
         $parser = $this->parser;
         $stream = $this->parser->getStream();
 
-        $stream->expect(Twig_Token::NAME_TYPE)->getValue();
-        $stream->expect(Twig_Token::OPERATOR_TYPE, '=');
-        $id = $parser->getExpressionParser()->parseExpression();
+        $id = null;
+        if ($stream->test('id')) {
+            $stream->expect(Twig_Token::NAME_TYPE);
+            $stream->expect(Twig_Token::OPERATOR_TYPE, '=');
+            $id = $parser->getExpressionParser()->parseExpression();
+        }
+
+        $vars = new \Twig_Node_Expression_Array(array(), $lineno);
+        if ($stream->test('vars')) {
+            $stream->expect(Twig_Token::NAME_TYPE);
+            $stream->expect(Twig_Token::OPERATOR_TYPE, '=');
+            $vars = $parser->getExpressionParser()->parseExpression();
+        }
+
         $stream->expect(Twig_Token::BLOCK_END_TYPE);
+
         $body = $parser->subparse(array($this, 'decideMarkdownEnd'), true);
         $stream->expect(Twig_Token::BLOCK_END_TYPE);
 
-        return new AutotextNode($body, $id, $lineno, $this->getTag());
+        return new AutotextNode($body, $id, $vars, $lineno, $this->getTag());
     }
 
     public function decideMarkdownEnd(Twig_Token $token)

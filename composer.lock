@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "64abfae599ab02bf2f7d996eb0c68ec2",
-    "content-hash": "535329b85347339871ad42225e24f2ca",
+    "hash": "e27fbb9b2f8518a612b19ab1e033fe9d",
+    "content-hash": "5900842a570103dfdbab103eb260d8bb",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -76,6 +76,103 @@
                 "caching"
             ],
             "time": "2016-10-29 11:16:17"
+        },
+        {
+            "name": "meniam/permutation",
+            "version": "V1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/meniam/permutation.git",
+                "reference": "79f20a29ba73b683898fdbbfff7e984a76fd8003"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/meniam/permutation/zipball/79f20a29ba73b683898fdbbfff7e984a76fd8003",
+                "reference": "79f20a29ba73b683898fdbbfff7e984a76fd8003",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "php": ">=5.4.0",
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Permutation": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eugene Myazin",
+                    "email": "eugene.myazin@gmail.com"
+                }
+            ],
+            "description": "Permutation algorithm on PHP",
+            "homepage": "https://github.com/meniam/permutation",
+            "keywords": [
+                "math",
+                "permutation",
+                "php"
+            ],
+            "time": "2017-02-13 16:08:18"
+        },
+        {
+            "name": "meniam/text_generator",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/meniam/text_generator.git",
+                "reference": "9dcb22f2abfe308b5a03af1b4aef8c0f7f614841"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/meniam/text_generator/zipball/9dcb22f2abfe308b5a03af1b4aef8c0f7f614841",
+                "reference": "9dcb22f2abfe308b5a03af1b4aef8c0f7f614841",
+                "shasum": ""
+            },
+            "require": {
+                "meniam/permutation": "~1.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "TextGenerator": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Julia Loykova",
+                    "email": "julinary@gmail.com"
+                },
+                {
+                    "name": "Eugene Myazin",
+                    "email": "meniam@gmail.com"
+                }
+            ],
+            "description": "Seo text generator tool",
+            "homepage": "https://github.com/meniam/text_generator",
+            "keywords": [
+                "app",
+                "seo",
+                "text",
+                "web"
+            ],
+            "time": "2017-02-15 12:32:17"
         },
         {
             "name": "paragonie/random_compat",

@@ -2,6 +2,7 @@
 
 namespace AutotextBundle\Twig;
 
+use AutotextBundle\Autotext;
 use TextGenerator\Part;
 use TextGenerator\TextGenerator;
 use Twig_Extension;
@@ -15,14 +16,19 @@ class AutotextExtension extends Twig_Extension
     public function getFilters()
     {
         return array(
-            'autotext' => new Twig_SimpleFilter('autotext', array(&$this, 'generateText'), array('is_safe' => array('html'))),
+            'autotext' => new Twig_SimpleFilter('autotext', array(&$this, 'autotext'), array('is_safe' => array('html'))),
         );
     }
 
-    public function generateText($text, $id)
+    /**
+     * @param       $text
+     * @param null  $id
+     * @param array $vars
+     * @return string
+     */
+    public function autotext($text, $id = null, $vars = [])
     {
-        $textGeneratorOptions = array(Part::OPTION_GENERATE_HASH => $id);
-        return TextGenerator::factory($text, $textGeneratorOptions)->generate();
+        return Autotext::autotext($text, $id, $vars);
     }
 
     /**
