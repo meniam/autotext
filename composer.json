@@ -28,8 +28,6 @@
         "phpunit/phpunit": "~6.0"
     },
     "autoload": {
-        "psr-4": {
-            "AutotextBundle": "src/"
-        }
+        "psr-4": {"AutotextBundle\\": "src/AutotextBundle"}
     }
 }
