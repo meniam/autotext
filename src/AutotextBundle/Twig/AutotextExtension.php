@@ -48,12 +48,4 @@ class AutotextExtension extends Twig_Extension
     {
         return [new AutotextTokenParser()];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'autotext';
-    }
 }

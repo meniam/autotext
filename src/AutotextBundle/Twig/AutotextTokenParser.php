@@ -36,7 +36,7 @@ class AutotextTokenParser extends \Twig_TokenParser
 
     public function decideMarkdownEnd(Twig_Token $token)
     {
-        return $token->test('autotextend');
+        return ($token->test('autotextend') || $token->test('endautotext'));
     }
 
     public function getTag()

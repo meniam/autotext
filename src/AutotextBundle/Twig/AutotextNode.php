@@ -46,6 +46,6 @@ class AutotextNode extends Twig_Node
             $compiler->raw('$vars = [];'.PHP_EOL);
         }
 
-        $compiler->write('echo $this->env->getExtension(\'autotext\')->autotext($body, $id, $vars);'.PHP_EOL);
+        $compiler->write('echo $this->env->getExtension(\'AutotextBundle\\Twig\\AutotextExtension\')->autotext($body, $id, $vars);'.PHP_EOL);
     }
 }
