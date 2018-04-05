@@ -1,6 +1,6 @@
 <?php
 
-namespace AutotextBundle\Twig;
+namespace Meniam\AutotextBundle\Twig;
 
 use Twig_Token;
 

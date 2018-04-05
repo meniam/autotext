@@ -1,10 +1,8 @@
 <?php
 
-namespace AutotextBundle\Twig;
+namespace Meniam\AutotextBundle\Twig;
 
-use AutotextBundle\Autotext;
-use TextGenerator\Part;
-use TextGenerator\TextGenerator;
+use Meniam\AutotextBundle\Autotext;
 use Twig_Extension;
 use Twig_SimpleFilter;
 

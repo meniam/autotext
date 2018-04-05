@@ -1,0 +1,23 @@
+parameters:
+    autotext.service.class: Meniam\AutotextBundle\Autotext
+    autotext.twig.extension.class: Meniam\AutotextBundle\Twig\AutotextExtension
+
+services:
+    Meniam\AutotextBundle\Autotext:
+        class:     "%autotext.service.class%"
+        arguments: [ "@service_container" ]
+        public: true
+
+    service.autotext:
+        alias: Meniam\AutotextBundle\Autotext
+        public: true
+
+    autotext:
+        alias: Meniam\AutotextBundle\Autotext
+        public: true
+
+    Meniam\AutotextBundle\Twig\AutotextExtension:
+        class:     "%autotext.twig.extension.class%"
+        public:    false
+        tags:
+            - { name: twig.extension }

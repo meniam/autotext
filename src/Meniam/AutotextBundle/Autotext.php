@@ -1,6 +1,6 @@
 <?php
 
-namespace AutotextBundle;
+namespace Meniam\AutotextBundle;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use TextGenerator\Part;

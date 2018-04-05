@@ -1,6 +1,6 @@
 <?php
 
-namespace AutotextBundle\Twig;
+namespace Meniam\AutotextBundle\Twig;
 
 use Twig_Node_Expression;
 use Twig_Node_Expression_Array;
@@ -46,6 +46,6 @@ class AutotextNode extends Twig_Node
             $compiler->raw('$vars = [];'.PHP_EOL);
         }
 
-        $compiler->write('echo $this->env->getExtension(\'AutotextBundle\\Twig\\AutotextExtension\')->autotext($body, $id, $vars);'.PHP_EOL);
+        $compiler->write('echo $this->env->getExtension(\'Meniam\\AutotextBundle\\Twig\\AutotextExtension\')->autotext($body, $id, $vars);'.PHP_EOL);
     }
 }
