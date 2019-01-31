@@ -25,7 +25,7 @@
     "require": {
         "php": ">=5.6.0",
         "twig/twig": ">=1.26",
-        "meniam/text_generator": "~1.0",
+        "meniam/text_generator": "~1.0.6",
         "symfony/framework-bundle": "~3.4 || ~4.0",
         "symfony/twig-bundle":      "~3.4 || ~4.0"
     },
