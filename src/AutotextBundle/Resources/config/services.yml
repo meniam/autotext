@@ -3,7 +3,7 @@ parameters:
     autotext.twig.extension.class:   AutotextBundle\Twig\AutotextExtension
 
 services:
-    service.autotext:
+    AutotextBundle\Autotext:
         class:     "%autotext.service.class%"
         arguments: [ "@service_container" ]
     twig.autotext:
