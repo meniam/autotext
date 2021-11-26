@@ -2,62 +2,44 @@
 
 namespace AutotextBundle;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Cache\CacheItemPoolInterface;
 use TextGenerator\Part;
 use TextGenerator\TextGenerator;
 
 class Autotext
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected CacheItemPoolInterface $cache;
 
-    /**
-     * AutotextExtension constructor.
-     *
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
+    public function __construct(CacheItemPoolInterface $appCache)
     {
-        $this->container = $container;
+        $this->cache = $appCache;
     }
 
-    /**
-     * @param       $text
-     * @param null  $seed
-     * @param array $vars
-     *
-     * @return string
-     */
-    public static function autotext($text, $seed = null, $vars = [])
+    public function autotext($text, $seed = null, $vars = []): string
     {
-        $textGeneratorOptions = array(Part::OPTION_GENERATE_RANDOM => $seed);
-        $textGenerator = TextGenerator::factory($text, $textGeneratorOptions);
-        $text = $seed ? $textGenerator->generateRandom($seed) : $textGenerator->generate();
+        $cacheItem = $this->cache->getItem('autotext_' . md5($text) . '_' . md5($seed ?: ''));
+        if ($cacheItem->get()) {
+            $text = $cacheItem->get();
+        } else {
+            $textGeneratorOptions = [ Part::OPTION_GENERATE_RANDOM => $seed ];
+            $textGenerator = TextGenerator::factory($text, $textGeneratorOptions);
+            $text = $seed ? $textGenerator->generateRandom($seed) : $textGenerator->generate();
+            $this->cache->save($cacheItem->set($text));
+        }
         return self::replaceVars($text, $vars);
     }
 
-    /**
-     * @param $text
-     * @param $vars
-     *
-     * @return mixed|string
-     */
-    public static function replaceVars($text, $vars = null)
+    private static function replaceVars($text, $vars = null): string
     {
         if (empty($text) || empty($vars) || (strpos($text, '%') === false)) {
             return trim($text);
         }
-
         $replaces = [];
         foreach ($vars as $k => &$v) {
             $replaces['%'.trim($k, ' %').'%'] = $v;
         }
-
         $text = strtr($text, $replaces);
         $text = preg_replace('#%\s*\w+\s*%#si', '', $text);
-
         return trim($text);
     }
 }

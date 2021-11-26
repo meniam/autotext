@@ -2,15 +2,16 @@
 
 namespace AutotextBundle\Twig;
 
-use Twig_Node_Expression;
-use Twig_Node_Expression_Array;
-use Twig_Node;
+use Twig\Compiler;
+use Twig\Node\Expression\AbstractExpression;
+use Twig\Node\Expression\ArrayExpression;
+use Twig\Node\Node;
 
-class AutotextNode extends Twig_Node
+class AutotextNode extends Node
 {
-    public function __construct(Twig_Node $body, Twig_Node_Expression $id = null, Twig_Node_Expression_Array $vars = null, $line = 0, $tag = null)
+    public function __construct(Node $body, AbstractExpression $id = null, ArrayExpression $vars = null, $line = 0, $tag = null)
     {
-        $nodes = array('body' => $body);
+        $nodes = [ 'body' => $body ];
 
         if (null !== $id) {
             $nodes['id'] = $id;
@@ -23,7 +24,7 @@ class AutotextNode extends Twig_Node
         parent::__construct($nodes, [], $line, $tag);
     }
 
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(Compiler $compiler)
     {
         $compiler
             ->addDebugInfo($this)
@@ -37,7 +38,7 @@ class AutotextNode extends Twig_Node
             $compiler->raw('$id = null;'.PHP_EOL);
         }
 
-        if ($this->hasNode('vars') && ($vars = $this->getNode('vars')) instanceof \Twig_Node_Expression_Array) {
+        if ($this->hasNode('vars') && ($vars = $this->getNode('vars')) instanceof ArrayExpression) {
             $compiler
                 ->raw('$vars = ')
                 ->subcompile($this->getNode('vars'))

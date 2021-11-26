@@ -2,11 +2,13 @@
 
 namespace AutotextBundle\Twig;
 
-use Twig_Token;
+use Twig\Node\Expression\ArrayExpression;
+use Twig\Token;
+use Twig\TokenParser\AbstractTokenParser;
 
-class AutotextTokenParser extends \Twig_TokenParser
+class AutotextTokenParser extends AbstractTokenParser
 {
-    public function parse(Twig_Token $token)
+    public function parse(Token $token): AutotextNode
     {
         $lineno = $token->getLine();
         $parser = $this->parser;
@@ -14,32 +16,32 @@ class AutotextTokenParser extends \Twig_TokenParser
 
         $id = null;
         if ($stream->test('id')) {
-            $stream->expect(Twig_Token::NAME_TYPE);
-            $stream->expect(Twig_Token::OPERATOR_TYPE, '=');
+            $stream->expect(Token::NAME_TYPE);
+            $stream->expect(Token::OPERATOR_TYPE, '=');
             $id = $parser->getExpressionParser()->parseExpression();
         }
 
-        $vars = new \Twig_Node_Expression_Array(array(), $lineno);
+        $vars = new ArrayExpression([ ], $lineno);
         if ($stream->test('vars')) {
-            $stream->expect(Twig_Token::NAME_TYPE);
-            $stream->expect(Twig_Token::OPERATOR_TYPE, '=');
+            $stream->expect(Token::NAME_TYPE);
+            $stream->expect(Token::OPERATOR_TYPE, '=');
             $vars = $parser->getExpressionParser()->parseExpression();
         }
 
-        $stream->expect(Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(Token::BLOCK_END_TYPE);
 
-        $body = $parser->subparse(array($this, 'decideMarkdownEnd'), true);
-        $stream->expect(Twig_Token::BLOCK_END_TYPE);
+        $body = $parser->subparse([ $this, 'decideMarkdownEnd' ], true);
+        $stream->expect(Token::BLOCK_END_TYPE);
 
         return new AutotextNode($body, $id, $vars, $lineno, $this->getTag());
     }
 
-    public function decideMarkdownEnd(Twig_Token $token)
+    public function decideMarkdownEnd(Token $token): bool
     {
         return ($token->test('autotextend') || $token->test('endautotext'));
     }
 
-    public function getTag()
+    public function getTag(): string
     {
         return 'autotext';
     }

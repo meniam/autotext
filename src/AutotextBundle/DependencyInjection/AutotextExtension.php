@@ -3,26 +3,26 @@
 namespace AutotextBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\Config\FileLocator;
 
 class AutotextExtension extends Extension
 {
-    /**
-     * @param array            $configs
-     * @param ContainerBuilder $container
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $optionDef = new Definition('AutotextBundle\Autotext');
+        $optionDef->setAutowired(true)->setAutoconfigured(true);
+        $container->setDefinition('autotext', $optionDef);
+
+        $optionDef = new Definition('AutotextBundle\Twig\AutotextExtension');
+        $optionDef->addArgument(new Reference('autotext'));
+        $optionDef->setPublic(false);
+        $optionDef->addTag('twig.extension');
+        $container->setDefinition('AutotextBundle\Twig\AutotextExtension', $optionDef);
     }
 
-    /**
-     * @return string
-     */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'autotext';
     }

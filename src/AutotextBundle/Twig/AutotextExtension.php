@@ -3,48 +3,39 @@
 namespace AutotextBundle\Twig;
 
 use AutotextBundle\Autotext;
-use TextGenerator\Part;
-use TextGenerator\TextGenerator;
-use Twig_Extension;
-use Twig_SimpleFilter;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
-class AutotextExtension extends Twig_Extension
+class AutotextExtension extends AbstractExtension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilters()
+    private Autotext $autotext;
+
+    public function __construct(Autotext $autotext)
+    {
+        $this->autotext = $autotext;
+    }
+
+    public function getFilters(): array
     {
         return [
-            'autotext' => new Twig_SimpleFilter('autotext', array(&$this, 'autotext'), array('is_safe' => array('html'))),
+            'autotext' => new TwigFilter('autotext', [ &$this, 'autotext' ], [ 'is_safe' => [ 'html' ] ]),
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction('autotext', array($this, 'autotext'), ['is_safe' => ['all']]),
+            new TwigFunction('autotext', [ $this, 'autotext' ], [ 'is_safe' => [ 'all' ] ]),
         ];
     }
 
-    /**
-     * @param       $text
-     * @param null  $id
-     * @param array $vars
-     * @return string
-     */
-    public function autotext($text, $id = null, $vars = [])
+    public function autotext($text, $id = null, array $vars = []): string
     {
-        return Autotext::autotext($text, $id, $vars);
+        return $this->autotext->autotext($text, $id, $vars);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTokenParsers()
+    public function getTokenParsers(): array
     {
         return [new AutotextTokenParser()];
     }
