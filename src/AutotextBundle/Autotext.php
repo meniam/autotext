@@ -17,15 +17,14 @@ class Autotext
 
     public function autotext($text, $seed = null, $vars = []): string
     {
-        $cacheItem = $this->cache->getItem('autotext_' . md5($text) . '_' . md5($seed ?: ''));
+        $cacheItem = $this->cache->getItem('autotext_' . md5($text));
         if ($cacheItem->get()) {
-            $text = $cacheItem->get();
+            $textGenerator = $cacheItem->get();
         } else {
-            $textGeneratorOptions = [ Part::OPTION_GENERATE_RANDOM => $seed ];
-            $textGenerator = TextGenerator::factory($text, $textGeneratorOptions);
-            $text = $seed ? $textGenerator->generateRandom($seed) : $textGenerator->generate();
-            $this->cache->save($cacheItem->set($text));
+            $textGenerator = TextGenerator::factory($text, []);
+            $this->cache->save($cacheItem->set($textGenerator));
         }
+        $text = $seed ? $textGenerator->generateRandom($seed) : $textGenerator->generate();
         return self::replaceVars($text, $vars);
     }
 
