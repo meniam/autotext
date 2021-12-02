@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AutotextBundle;
 
 use Psr\Cache\CacheItemPoolInterface;
-use TextGenerator\Part;
 use TextGenerator\TextGenerator;
 
 class Autotext
@@ -15,7 +16,7 @@ class Autotext
         $this->cache = $appCache;
     }
 
-    public function autotext($text, $seed = null, $vars = []): string
+    public function autotext($text, $seed = null, array $vars = []): string
     {
         $cacheItem = $this->cache->getItem('autotext_' . md5($text));
         if ($cacheItem->get()) {
@@ -28,7 +29,7 @@ class Autotext
         return self::replaceVars($text, $vars);
     }
 
-    private static function replaceVars($text, $vars = null): string
+    private static function replaceVars($text, array $vars = []): string
     {
         if (empty($text) || empty($vars) || (strpos($text, '%') === false)) {
             return trim($text);

@@ -24,7 +24,7 @@ class AutotextNode extends Node
         parent::__construct($nodes, [], $line, $tag);
     }
 
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         $compiler
             ->addDebugInfo($this)
@@ -38,7 +38,7 @@ class AutotextNode extends Node
             $compiler->raw('$id = null;'.PHP_EOL);
         }
 
-        if ($this->hasNode('vars') && ($vars = $this->getNode('vars')) instanceof ArrayExpression) {
+        if ($this->hasNode('vars') && ($this->getNode('vars')) instanceof ArrayExpression) {
             $compiler
                 ->raw('$vars = ')
                 ->subcompile($this->getNode('vars'))
