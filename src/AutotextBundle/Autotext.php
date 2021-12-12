@@ -35,7 +35,7 @@ class Autotext
             return trim($text);
         }
         $replaces = [];
-        foreach ($vars as $k => &$v) {
+        foreach ($vars as $k => $v) {
             $replaces['%'.trim($k, ' %').'%'] = $v;
         }
         $text = strtr($text, $replaces);
